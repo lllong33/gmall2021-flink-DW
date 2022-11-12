@@ -1,0 +1,26 @@
+{"common": {
+		"ar": "230000",
+		"uid": "25",
+		"os": "Android 11.0",
+		"ch": "360",
+		"is_new": "0",
+		"md": "Xiaomi 10 Pro ",
+		"mid": "mid_18",
+		"vc": "v2.1.134",
+		"ba": "Xiaomi"
+	},
+	"start": {
+		"entry": "icon",
+		"open_ad_skip_ms": 5480,
+		"open_ad_ms": 6818,
+		"loading_time": 8514,
+		"open_ad_id": 1
+	},
+	"ts": 1664439122000
+}
+{"common":{"ar":"110000","uid":"12","os":"iOS 13.2.3","ch":"Appstore","is_new":"0","md":"iPhone X","mid":"mid_12","vc":"v2.1.132","ba":"iPhone"},"start":{"entry":"install","open_ad_skip_ms":7586,"open_ad_ms":8192,"loading_time":13438,"open_ad_id":20},"ts":1664439122000}
+{"common":{"ar":"230000","uid":"3","os":"iOS 12.4.1","ch":"Appstore","is_new":"1","md":"iPhone Xs","mid":"mid_14","vc":"v2.1.134","ba":"iPhone"},"start":{"entry":"install","open_ad_skip_ms":3634,"open_ad_ms":8485,"loading_time":7983,"open_ad_id":1},"ts":1664439123000}
+{"common":{"ar":"440000","uid":"31","os":"Android 10.0","ch":"xiaomi","is_new":"0","md":"Sumsung Galaxy S20","mid":"mid_9","vc":"v2.1.111","ba":"Sumsung"},"start":{"entry":"notice","open_ad_skip_ms":0,"open_ad_ms":5515,"loading_time":13796,"open_ad_id":1},"ts":1664439123000}
+{"common":{"ar":"230000","uid":"49","os":"iOS 13.3.1","ch":"Appstore","is_new":"0","md":"iPhone Xs","mid":"mid_18","vc":"v2.1.134","ba":"iPhone"},"start":{"entry":"icon","open_ad_skip_ms":5586,"open_ad_ms":8701,"loading_time":11867,"open_ad_id":2},"ts":1664439124000}
+{"common":{"ar":"110000","uid":"12","os":"Android 11.0","ch":"xiaomi","is_new":"0","md":"Huawei Mate 30","mid":"mid_14","vc":"v2.1.111","ba":"Huawei"},"start":{"entry":"icon","open_ad_skip_ms":6317,"open_ad_ms":9373,"loading_time":4609,"open_ad_id":18},"ts":1664439125000}
+{"common":{"ar":"110000","uid":"13","os":"Android 11.0","ch":"xiaomi","is_new":"1","md":"Xiaomi 9","mid":"mid_17","vc":"v2.1.134","ba":"Xiaomi"},"start":{"entry":"icon","open_ad_skip_ms":0,"open_ad_ms":9310,"loading_time":17875,"open_ad_id":17},"ts":1664439125000}

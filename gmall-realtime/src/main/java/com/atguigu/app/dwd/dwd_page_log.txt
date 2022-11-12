@@ -1,0 +1,58 @@
+{
+	"common": {
+		"ar": "230000",
+		"uid": "12",
+		"os": "Android 11.0",
+		"ch": "oppo",
+		"is_new": "0",
+		"md": "Xiaomi Mix2 ",
+		"mid": "mid_6",
+		"vc": "v2.1.111",
+		"ba": "Xiaomi"
+	},
+	"page": {
+		"page_id": "good_list",
+		"item": "口红",
+		"during_time": 7550,
+		"item_type": "keyword",
+		"last_page_id": "search"
+	},
+	"displays": [{
+		"display_type": "promotion",
+		"item": "6",
+		"item_type": "sku_id",
+		"pos_id": 5,
+		"order": 1
+	}, {
+		"display_type": "recommend",
+		"item": "9",
+		"item_type": "sku_id",
+		"pos_id": 5,
+		"order": 2
+	}, {
+		"display_type": "promotion",
+		"item": "1",
+		"item_type": "sku_id",
+		"pos_id": 4,
+		"order": 3
+	}, {
+		"display_type": "query",
+		"item": "3",
+		"item_type": "sku_id",
+		"pos_id": 3,
+		"order": 4
+	}, {
+		"display_type": "query",
+		"item": "1",
+		"item_type": "sku_id",
+		"pos_id": 5,
+		"order": 5
+	}, {
+		"display_type": "query",
+		"item": "8",
+		"item_type": "sku_id",
+		"pos_id": 3,
+		"order": 6
+	}],
+	"ts": 1664439102000
+}

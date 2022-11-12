@@ -1,0 +1,83 @@
+{"display_type":"activity","page_id":"home","item":"1","item_type":"activity_id","pos_id":1,"order":1}
+{"display_type":"activity","page_id":"home","item":"2","item_type":"activity_id","pos_id":1,"order":2}
+{"display_type":"query","page_id":"home","item":"10","item_type":"sku_id","pos_id":4,"order":3}
+{"display_type":"query","page_id":"home","item":"5","item_type":"sku_id","pos_id":3,"order":4}
+{"display_type":"promotion","page_id":"home","item":"1","item_type":"sku_id","pos_id":1,"order":5}
+{"display_type":"query","page_id":"home","item":"1","item_type":"sku_id","pos_id":4,"order":6}
+{
+	"common": {
+		"ar": "230000",
+		"uid": "40",
+		"os": "Android 10.0",
+		"ch": "wandoujia",
+		"is_new": "0",
+		"md": "Xiaomi 9",
+		"mid": "mid_3",
+		"vc": "v2.1.134",
+		"ba": "Xiaomi"
+	},
+	"page": {
+		"page_id": "good_detail",
+		"item": "1",
+		"during_time": 14362,
+		"item_type": "sku_id",
+		"last_page_id": "home",
+		"source_type": "query"
+	},
+	"displays": [{
+		"display_type": "query",
+		"item": "7",
+		"item_type": "sku_id",
+		"pos_id": 5,
+		"order": 1
+	}, {
+		"display_type": "query",
+		"item": "5",
+		"item_type": "sku_id",
+		"pos_id": 4,
+		"order": 2
+	}, {
+		"display_type": "promotion",
+		"item": "7",
+		"item_type": "sku_id",
+		"pos_id": 5,
+		"order": 3
+	}, {
+		"display_type": "query",
+		"item": "2",
+		"item_type": "sku_id",
+		"pos_id": 2,
+		"order": 4
+	}, {
+		"display_type": "promotion",
+		"item": "3",
+		"item_type": "sku_id",
+		"pos_id": 3,
+		"order": 5
+	}, {
+		"display_type": "promotion",
+		"item": "6",
+		"item_type": "sku_id",
+		"pos_id": 3,
+		"order": 6
+	}, {
+		"display_type": "promotion",
+		"item": "3",
+		"item_type": "sku_id",
+		"pos_id": 4,
+		"order": 7
+	}, {
+		"display_type": "query",
+		"item": "1",
+		"item_type": "sku_id",
+		"pos_id": 3,
+		"order": 8
+	}],
+	"actions": [{
+		"item": "3",
+		"action_id": "get_coupon",
+		"item_type": "coupon_id",
+		"ts": 1664439098181
+	}],
+	"ts": 1664439091000
+}
