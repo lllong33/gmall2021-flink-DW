@@ -36,7 +36,7 @@ public class KeywordUtil {
 
     public static void main(String[] args) throws IOException {
 
-        System.out.println(splitKeyWord("尚硅谷大数据项目之实时数仓"));
+        System.out.println(splitKeyWord("Apple iPhoneXSMax (A2104) 256GB 深空灰色移动联通电信4G手机 双卡双待"));
 
     }
 }

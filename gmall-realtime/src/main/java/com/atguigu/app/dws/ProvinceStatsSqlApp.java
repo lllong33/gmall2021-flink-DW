@@ -7,6 +7,7 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.types.Row;
 
 //数据流：web/app -> nginx -> SpringBoot -> Mysql -> FlinkApp -> Kafka(ods) -> FlinkApp -> Kafka/Phoenix(dwd-dim) -> FlinkApp(redis) -> Kafka(dwm) -> FlinkApp -> ClickHouse
 //程  序：         MockDb               -> Mysql -> FlinkCDC -> Kafka(ZK) -> BaseDbApp -> Kafka/Phoenix(zk/hdfs/hbase) -> OrderWideApp(Redis) -> Kafka -> ProvinceStatsSqlApp -> ClickHouse
@@ -30,8 +31,10 @@ public class ProvinceStatsSqlApp {
         //env.setRestartStrategy(RestartStrategies.fixedDelayRestart());
 
         //TODO 2.使用DDL创建表 提取时间戳生成WaterMark
+        System.out.println("start create ddl map table");
         String groupId = "province_stats";
         String orderWideTopic = "dwm_order_wide";
+        // TODO BUG5: dwm_order_wide 有新数据, 这里没数据
         tableEnv.executeSql("CREATE TABLE order_wide ( " +
                 "  `province_id` BIGINT, " +
                 "  `province_name` STRING, " +
@@ -46,6 +49,7 @@ public class ProvinceStatsSqlApp {
                 MyKafkaUtil.getKafkaDDL(orderWideTopic, groupId) + ")");
 
         //TODO 3.查询数据  分组、开窗、聚合
+        System.out.println("[DEBUG] start sqlQuery");
         Table table = tableEnv.sqlQuery("select " +
                 "    DATE_FORMAT(TUMBLE_START(rt, INTERVAL '10' SECOND), 'yyyy-MM-dd HH:mm:ss') stt, " +
                 "    DATE_FORMAT(TUMBLE_END(rt, INTERVAL '10' SECOND), 'yyyy-MM-dd HH:mm:ss') edt, " +
@@ -68,11 +72,30 @@ public class ProvinceStatsSqlApp {
                 "    TUMBLE(rt, INTERVAL '10' SECOND)");
 
         //TODO 4.将动态表转换为流
-        DataStream<ProvinceStats> provinceStatsDataStream = tableEnv.toAppendStream(table, ProvinceStats.class);
+        // TODO BUG5-1: 卡在这里转换 org.apache.flink.table.api.bridge.java.internal.StreamTableEnvironmentImpl.toStreamInternal
+            // 这里也看不出来传递的数据结构.
+//        DataStream<ProvinceStats> provinceStatsDataStream = tableEnv.toAppendStream(table, ProvinceStats.class);
+        DataStream<Row> provinceStatsDataStream = tableEnv.toDataStream(table);
 
         //TODO 5.打印数据并写入ClickHouse
-        provinceStatsDataStream.print();
-        provinceStatsDataStream.addSink(ClickHouseUtil.getSink("insert into province_stats_210325 values(?,?,?,?,?,?,?,?,?,?)"));
+        provinceStatsDataStream.print("provinceStatsDS>>>>");
+        /*
+        create table province_stats_210325 (
+                stt DateTime,
+                edt DateTime,
+                province_id UInt64,
+                province_name String,
+                area_code String,
+                iso_code String,
+                iso_3166_2 String,
+                order_amount Decimal64(2),
+                order_count UInt64,
+                ts UInt64
+        )engine =ReplacingMergeTree(ts)
+        partition by toYYYYMMDD(stt)
+        order by (stt,edt,province_id);
+        */
+//        provinceStatsDataStream.addSink(ClickHouseUtil.getSink("insert into province_stats_210325 values(?,?,?,?,?,?,?,?,?,?)"));
 
         //TODO 6.启动任务
         env.execute("ProvinceStatsSqlApp");

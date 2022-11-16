@@ -9,6 +9,7 @@ import org.apache.flink.types.Row;
 import java.io.IOException;
 import java.util.List;
 
+// 参考: https://ci.apache.org/projects/flink/flink-docs-release-1.12/dev/table/functions/udfs.html
 @FunctionHint(output = @DataTypeHint("ROW<word STRING>"))
 public class SplitFunction extends TableFunction<Row> {
 

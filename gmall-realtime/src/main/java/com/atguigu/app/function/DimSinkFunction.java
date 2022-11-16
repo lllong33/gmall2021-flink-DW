@@ -27,7 +27,9 @@ public class DimSinkFunction extends RichSinkFunction<JSONObject> {
         properties.put("phoenix.schema.isNamespaceMappingEnabled","true");
         // com.atguigu.app.function.DimSinkFunction.open(DimSinkFunction.java:28)  ServerNotRunningYetException: Server is not running yet
         System.out.println("[DEBUG] start get phoenix conn...");
-        connection = DriverManager.getConnection(GmallConfig.PHOENIX_SERVER, properties); // BUG01: 好像是这里一直获取不到conn, 经排查 Hbase Master因为Could not obtain block导致挂掉了, 重启HDFS解决.
+        connection = DriverManager.getConnection(GmallConfig.PHOENIX_SERVER, properties);
+        // BUG01: 这里一直获取不到conn, 经排查 Hbase Master因为Could not obtain block导致挂掉了, 重启HDFS解决.
+        // BUG02: DataNode 出现只有一个节点存活. 一直重复出现 DatanodeRegistration, 排查发现三台VERSION文件中dtanodeUuid一样了. 手改修改后即正常运行.
         connection.setAutoCommit(true);
         System.out.println("[DEBUG] success get phoenix conn...");
     }
