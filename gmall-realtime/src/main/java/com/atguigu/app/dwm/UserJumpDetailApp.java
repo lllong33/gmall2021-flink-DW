@@ -47,18 +47,18 @@ public class UserJumpDetailApp {
         String sourceTopic = "dwd_page_log";
         String groupId = "userJumpDetailApp";
         String sinkTopic = "dwm_user_jump_detail";
-//        DataStreamSource<String> kafkaDS = env.addSource(MyKafkaUtil.getKafkaConsumer(sourceTopic, groupId));
+        DataStreamSource<String> kafkaDS = env.addSource(MyKafkaUtil.getKafkaConsumer(sourceTopic, groupId));
         // mock data not dumpData, this use simple data
-        DataStream<String> kafkaDS = env
-                .fromElements(
-                        "{\"common\":{\"mid\":\"101\"},\"page\":{\"page_id\":\"home\"},\"ts\":10000} ",
-                        "{\"common\":{\"mid\":\"102\"},\"page\":{\"page_id\":\"home\"},\"ts\":12000}",
-                        "{\"common\":{\"mid\":\"102\"},\"page\":{\"page_id\":\"good_list\",\"last_page_id\":" +
-                                "\"home\"},\"ts\":15000} ",
-                        "{\"common\":{\"mid\":\"102\"},\"page\":{\"page_id\":\"good_list\",\"last_page_id\":" +
-                                "\"detail\"},\"ts\":30000} "
-                );
-        kafkaDS.print("in json:");
+//        DataStream<String> kafkaDS = env
+//                .fromElements(
+//                        "{\"common\":{\"mid\":\"101\"},\"page\":{\"page_id\":\"home\"},\"ts\":10000} ",
+//                        "{\"common\":{\"mid\":\"102\"},\"page\":{\"page_id\":\"home\"},\"ts\":12000}",
+//                        "{\"common\":{\"mid\":\"102\"},\"page\":{\"page_id\":\"good_list\",\"last_page_id\":" +
+//                                "\"home\"},\"ts\":15000} ",
+//                        "{\"common\":{\"mid\":\"102\"},\"page\":{\"page_id\":\"good_list\",\"last_page_id\":" +
+//                                "\"detail\"},\"ts\":30000} "
+//                );
+//        kafkaDS.print("in json:");
 
 
         //TODO 3.将每行数据转换为JSON对象并提取时间戳生成Watermark
@@ -135,7 +135,7 @@ public class UserJumpDetailApp {
 
 
         //TODO 8.将数据写入Kafka
-        unionDS.print("unionDS");
+        unionDS.print("unionDS>>>>");
         unionDS.map(JSONAware::toJSONString)
                 .addSink(MyKafkaUtil.getKafkaSink(sinkTopic));
 

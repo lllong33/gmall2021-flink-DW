@@ -36,6 +36,7 @@ public class OrderWideApp {
         String groupId = "order_wide_group_0325";
         SingleOutputStreamOperator<OrderInfo> orderInfoDS = env.addSource(MyKafkaUtil.getKafkaConsumer(orderInfoSourceTopic, groupId))
                 .map(line -> {
+                    System.out.println("start orderInfoDS map -> OderInfo.class");
                     OrderInfo orderInfo = JSON.parseObject(line, OrderInfo.class);
 
                     String create_time = orderInfo.getCreate_time();
@@ -53,6 +54,9 @@ public class OrderWideApp {
                                 return element.getCreate_ts();
                             }
                         }));
+        // TODO BUG3: 手动修改order_info业务表, 来源 dwd_order_info 会有新数据, 这里没有输出?
+        // TODO BUG4: 当我mock db_lg脚本时, orderWideWithNoDimDS 有输出, 这里还是没输出.
+        System.out.println("dwd_order_info>>>>");
 
         SingleOutputStreamOperator<OrderDetail> orderDetailDS = env.addSource(MyKafkaUtil.getKafkaConsumer(orderDetailSourceTopic, groupId))
                 .map(line -> {

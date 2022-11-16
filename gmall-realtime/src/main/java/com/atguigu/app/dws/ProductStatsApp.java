@@ -209,7 +209,7 @@ public class ProductStatsApp {
                         stats1.setClick_ct(stats1.getClick_ct() + stats2.getClick_ct());
                         stats1.setCart_ct(stats1.getCart_ct() + stats2.getCart_ct());
                         stats1.setFavor_ct(stats1.getFavor_ct() + stats2.getFavor_ct());
-                        stats1.setOrder_amount(stats1.getOrder_amount().add(stats2.getOrder_amount()));
+                        stats1.setOrder_amount(stats1.getOrder_amount().add(stats2.getOrder_amount())); // BigDecimal类型不能自动解析 + 符号, 要手动调用.add()
                         stats1.getOrderIdSet().addAll(stats2.getOrderIdSet());
                         //stats1.setOrder_ct(stats1.getOrderIdSet().size() + 0L);
                         stats1.setOrder_sku_num(stats1.getOrder_sku_num() + stats2.getOrder_sku_num());

@@ -107,7 +107,7 @@ public class VisitorStatsApp {
                 }));
 
         //6.按照维度信息分组
-        // todo 聚合的原因是可能存在重复数据，KeySelector类不太熟悉；以及聚合流里面数据都有哪些方法？
+        // 列转行,聚合是将维度相同指标放一起;
         KeyedStream<VisitorStats, Tuple4<String, String, String, String>> keyedStream = vsWithWmDS.keyBy(new KeySelector<VisitorStats, Tuple4<String, String, String, String>>() {
             @Override
             public Tuple4<String, String, String, String> getKey(VisitorStats value) throws Exception {
@@ -120,9 +120,11 @@ public class VisitorStatsApp {
             }
         });
 
-        //7.开窗聚合 10s的滚动窗口
+        //7.开窗聚合 10s的滚动窗口; 统计出每个时段的聚合值.(开窗的原因是避免高频写ck,提高性能)
         // todo 这里是盟的，https://www.bilibili.com/video/BV1Ju411o7f8?p=119
-        // todo 开窗聚合，为什么要使用apply？使用process的区别？reduceFunction区别？
+        // 开窗聚合，为什么要使用apply？使用process的区别？A 更新VisitorStates的Stt和Edt
+            // 从功能上来讲，process已经包含了apply能提供的功能，apply()是旧版的process(); 最大的区别在于process可以自己定时触发计算的定时器; 参考: https://cpeixin.cn/2020/05/30/Flink-apply-process-%E8%AE%B2%E8%A7%A3/
+        // reduceFunction区别？上述已经是keyStream, 需要将数据聚合, 所以使用reduce算子
         WindowedStream<VisitorStats, Tuple4<String, String, String, String>, TimeWindow> windowedStream = keyedStream.window(TumblingEventTimeWindows.of(Time.seconds(10)));
         SingleOutputStreamOperator<VisitorStats> visitorStatsDS = windowedStream.reduce(new ReduceFunction<VisitorStats>() {
             @Override
@@ -137,10 +139,10 @@ public class VisitorStatsApp {
                 long start = window.getStart();
                 long end = window.getEnd();
 
-                VisitorStats next = input.iterator().next();
+                VisitorStats next = input.iterator().next(); // TODO 这里需要遍历, 否则只有一个key被处理?
 
                 next.setStt(DateTimeUtil.toYMDhms(new Date(start)));
-                next.setStt(DateTimeUtil.toYMDhms(new Date(end)));
+                next.setEdt(DateTimeUtil.toYMDhms(new Date(end)));
 
                 out.collect(next);
             }
@@ -149,6 +151,24 @@ public class VisitorStatsApp {
         //8.写入ck
         visitorStatsDS.print("visitorStatsDS>>>>>>>>>");
         // 基于JdbcSink.sink()实现工具类
+        /*
+        create table visitor_stats_210325 (
+            stt DateTime,
+            edt DateTime,
+            vc String,
+            ch String,
+            ar String,
+            is_new String,
+            uv_ct UInt64,
+            pv_ct UInt64,
+            sv_ct UInt64,
+            uj_ct UInt64,
+            dur_sum UInt64,
+            ts UInt64
+            ) engine =ReplacingMergeTree(ts)
+            partition by toYYYYMMDD(stt)
+            order by (stt,edt,is_new,vc,ch,ar);
+        * */
         visitorStatsDS.addSink(ClickHouseUtil.getSink("insert into visitor_stats_210325 values(?,?,?,?,?,?,?,?,?,?,?,?)"));
 
         //9.启动任务
